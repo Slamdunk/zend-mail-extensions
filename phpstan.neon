@@ -1,0 +1,11 @@
+includes:
+    - vendor/phpstan/phpstan/conf/config.levelmax.neon
+    - vendor/phpstan/phpstan-phpunit/extension.neon
+    - vendor/slam/phpstan-extensions/conf/slam-rules.neon
+    - vendor/slam/phpstan-extensions/conf/thecodingmachine-rules.neon
+
+parameters:
+    ignoreErrors:
+        - '#Parameter \#1 \$originalProtocol of class Slam\\Zend\\Mail\\Protocol\\TimeKeeperSmtpProxy constructor expects Zend\\Mail\\Protocol\\Smtp, PHPUnit\\Framework\\MockObject\\MockObject given#'
+        - '#Parameter \#1 \$useCompleteQuit of method Zend\\Mail\\Protocol\\Smtp::setUseCompleteQuit\(\) expects int, false given#'
+        - '#Slam\\Zend\\Mail\\Protocol\\TimeKeeperSmtpProxy::__construct\(\) does not call parent constructor from Zend\\Mail\\Protocol\\Smtp#'
