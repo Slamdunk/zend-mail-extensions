@@ -13,3 +13,13 @@ Execute:
 `composer require slam/zend-mail-extensions`
 
 ## Usage
+
+The main functionality of this package is the `Protocol\TimeKeeperSmtpProxy`,
+which allows to handle SMTP server that implements a `reuse_time_limit` like
+Postfix (ref: http://www.postfix.org/postconf.5.html#smtp_connection_reuse_time_limit).
+
+References:
+
+1. https://github.com/zendframework/zend-mail/pull/27
+1. https://github.com/zendframework/zend-mail/pull/117
+1. https://github.com/zendframework/zend-mail/pull/131
