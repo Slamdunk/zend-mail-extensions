@@ -11,9 +11,12 @@ use Zend\Mail\Transport as ZendTransport;
 
 final class Smtp extends ZendTransport\Smtp
 {
+    /**
+     * @var int
+     */
     public $reuseTimeLimit = 270;
 
-    public function setPluginManager(ZendProtocol\SmtpPluginManager $plugins)
+    public function setPluginManager(ZendProtocol\SmtpPluginManager $plugins): ZendTransport\TransportInterface
     {
         $plugins->configure([
             'delegators' => [
@@ -27,12 +30,11 @@ final class Smtp extends ZendTransport\Smtp
         return parent::setPluginManager($plugins);
     }
 
-    public function send(ZendMessage $message)
+    public function send(ZendMessage $message): void
     {
         $connection = $this->getConnection();
 
-        if (
-                $connection instanceof SlamProtocol\TimeKeeperProtocolInterface
+        if ($connection instanceof SlamProtocol\TimeKeeperProtocolInterface
             and $this->reuseTimeLimit >= 0
             and $connection->getStartTime()
             and ((\time() - $connection->getStartTime()) >= $this->reuseTimeLimit)
@@ -40,6 +42,6 @@ final class Smtp extends ZendTransport\Smtp
             $connection->disconnect();
         }
 
-        return parent::send($message);
+        parent::send($message);
     }
 }

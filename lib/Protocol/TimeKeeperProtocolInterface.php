@@ -8,7 +8,7 @@ interface TimeKeeperProtocolInterface
 {
     public function getStartTime(): ?int;
 
-    public function connect();
+    public function connect(): bool;
 
-    public function disconnect();
+    public function disconnect(): void;
 }

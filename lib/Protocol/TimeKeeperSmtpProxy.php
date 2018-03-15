@@ -5,11 +5,18 @@ declare(strict_types=1);
 namespace Slam\Zend\Mail\Protocol;
 
 use Zend\Mail\Protocol\Smtp as ZendProtocolSmtp;
+use Zend\Mail\Protocol\Smtp;
 
 final class TimeKeeperSmtpProxy extends ZendProtocolSmtp implements TimeKeeperProtocolInterface
 {
+    /**
+     * @var ZendProtocolSmtp
+     */
     private $originalProtocol;
 
+    /**
+     * @var null|int
+     */
     private $startTime;
 
     public function __construct(ZendProtocolSmtp $originalProtocol)
@@ -28,17 +35,17 @@ final class TimeKeeperSmtpProxy extends ZendProtocolSmtp implements TimeKeeperPr
         return $this->startTime;
     }
 
-    public function setMaximumLog($maximumLog)
+    public function setMaximumLog($maximumLog): void
     {
-        return $this->originalProtocol->setMaximumLog($maximumLog);
+        $this->originalProtocol->setMaximumLog($maximumLog);
     }
 
-    public function getMaximumLog()
+    public function getMaximumLog(): int
     {
         return $this->originalProtocol->getMaximumLog();
     }
 
-    public function connect()
+    public function connect(): bool
     {
         $result = $this->originalProtocol->connect();
 
@@ -47,101 +54,99 @@ final class TimeKeeperSmtpProxy extends ZendProtocolSmtp implements TimeKeeperPr
         return $result;
     }
 
-    public function getRequest()
+    public function getRequest(): string
     {
         return $this->originalProtocol->getRequest();
     }
 
-    public function getResponse()
+    public function getResponse(): array
     {
         return $this->originalProtocol->getResponse();
     }
 
-    public function getLog()
+    public function getLog(): string
     {
         return $this->originalProtocol->getLog();
     }
 
-    public function resetLog()
+    public function resetLog(): void
     {
-        return $this->originalProtocol->resetLog();
+        $this->originalProtocol->resetLog();
     }
 
-    public function helo($host = '127.0.0.1')
+    public function helo($host = '127.0.0.1'): void
     {
-        return $this->originalProtocol->helo($host);
+        $this->originalProtocol->helo($host);
     }
 
-    public function hasSession()
+    public function hasSession(): bool
     {
         return $this->originalProtocol->hasSession();
     }
 
-    public function mail($from)
+    public function mail($from): void
     {
-        return $this->originalProtocol->mail($from);
+        $this->originalProtocol->mail($from);
     }
 
-    public function rcpt($to)
+    public function rcpt($to): void
     {
-        return $this->originalProtocol->rcpt($to);
+        $this->originalProtocol->rcpt($to);
     }
 
-    public function data($data)
+    public function data($data): void
     {
-        return $this->originalProtocol->data($data);
+        $this->originalProtocol->data($data);
     }
 
-    public function rset()
+    public function rset(): void
     {
-        return $this->originalProtocol->rset();
+        $this->originalProtocol->rset();
     }
 
-    public function noop()
+    public function noop(): void
     {
-        return $this->originalProtocol->noop();
+        $this->originalProtocol->noop();
     }
 
-    public function vrfy($user)
+    public function vrfy($user): void
     {
-        return $this->originalProtocol->vrfy($user);
+        $this->originalProtocol->vrfy($user);
     }
 
-    public function quit()
+    public function quit(): void
     {
-        return $this->originalProtocol->quit();
+        $this->originalProtocol->quit();
     }
 
-    public function auth()
+    public function auth(): void
     {
-        return $this->originalProtocol->auth();
+        $this->originalProtocol->auth();
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
-        $result = $this->originalProtocol->disconnect();
+        $this->originalProtocol->disconnect();
 
         $this->startTime = null;
-
-        return $result;
     }
 
-    public function setUsername($username)
+    public function setUsername(string $username): Smtp
     {
         return $this->originalProtocol->setUsername($username);
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->originalProtocol->getUsername();
     }
 
-    public function setPassword($password)
+    public function setPassword(string $password): Smtp
     {
         return $this->originalProtocol->setPassword($password);
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->originalProtocol->getPassword();
     }
