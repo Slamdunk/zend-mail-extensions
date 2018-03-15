@@ -82,7 +82,10 @@ final class TimeKeeperSmtpProxyTest extends TestCase
 
     public function testAccountTheStartTime()
     {
-        $protocol = new TimeKeeperSmtpProxy($this->createMock(ZendProtocolSmtp::class));
+        $zendProtocolSmtpMock = $this->createMock(ZendProtocolSmtp::class);
+        $zendProtocolSmtpMock->expects($this->once())->method('connect')->willReturn(true);
+        $zendProtocolSmtpMock->expects($this->once())->method('disconnect');
+        $protocol = new TimeKeeperSmtpProxy($zendProtocolSmtpMock);
 
         $this->assertNull($protocol->getStartTime());
 
