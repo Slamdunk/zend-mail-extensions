@@ -14,9 +14,9 @@ use Zend\Mail\Protocol\Smtp as ZendProtocolSmtp;
 final class TimeKeeperSmtpProxyTest extends TestCase
 {
     /**
-     * @dataProvider provideSmtpConosciuti
+     * @dataProvider provideKnownSmtpTypes
      */
-    public function testProxyDeiMetodiPubbliciEccettoQuit(string $smtpClass)
+    public function testProxyPublicMethodsExceptQuitOne(string $smtpClass)
     {
         $zendSmtp = $this->createMock($smtpClass);
 
@@ -70,7 +70,7 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         }
     }
 
-    public function provideSmtpConosciuti()
+    public function provideKnownSmtpTypes()
     {
         return [
             [ZendProtocolSmtp\Auth\Crammd5::class],
@@ -80,7 +80,7 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         ];
     }
 
-    public function testConsideraLoStartTime()
+    public function testAccountTheStartTime()
     {
         $protocol = new TimeKeeperSmtpProxy($this->createMock(ZendProtocolSmtp::class));
 

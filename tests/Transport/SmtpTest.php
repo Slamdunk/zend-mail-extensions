@@ -15,7 +15,7 @@ use Zend\Mail\Message;
  */
 final class SmtpTest extends TestCase
 {
-    public function testProtocolloPersonalizzato()
+    public function testProtocolsAreProxied()
     {
         $transport = new Smtp();
 
@@ -24,7 +24,7 @@ final class SmtpTest extends TestCase
         $this->assertInstanceOf(TimeKeeperSmtpProxy::class, $pluginManager->get('smtp'));
     }
 
-    public function testDisconnetteERiconnetteDaSoloTraDueInviiSuccessiviSeEPassatoTroppoTempoPerEvitareIlReuseTimeLimitDiPostfix()
+    public function testAutomaticallyDisconnectAndRiconnectBetweenTwoConsecutivesSendsIfTooMuchTimeIsPassedInOrderToAvoidReuseTimeLimitBond()
     {
         $message = new Message();
         $message
