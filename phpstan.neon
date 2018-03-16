@@ -9,3 +9,7 @@ parameters:
         - '#Parameter \#1 \$originalProtocol of class Slam\\Zend\\Mail\\Protocol\\TimeKeeperSmtpProxy constructor expects Zend\\Mail\\Protocol\\Smtp, PHPUnit\\Framework\\MockObject\\MockObject given#'
         - '#Parameter \#1 \$useCompleteQuit of method Zend\\Mail\\Protocol\\Smtp::setUseCompleteQuit\(\) expects int, false given#'
         - '#Slam\\Zend\\Mail\\Protocol\\TimeKeeperSmtpProxy::__construct\(\) does not call parent constructor from Zend\\Mail\\Protocol\\Smtp#'
+        - '#Call to an undefined method Zend\\Mail\\Protocol\\Smtp::setUsername().#'
+        - '#Call to an undefined method Zend\\Mail\\Protocol\\Smtp::getUsername().#'
+        - '#Call to an undefined method Zend\\Mail\\Protocol\\Smtp::setPassword().#'
+        - '#Call to an undefined method Zend\\Mail\\Protocol\\Smtp::getPassword().#'

@@ -10,7 +10,7 @@ use Zend\Mail\Protocol\Smtp;
 final class TimeKeeperSmtpProxy extends ZendProtocolSmtp implements TimeKeeperProtocolInterface
 {
     /**
-     * @var ZendProtocolSmtp
+     * @var ZendProtocolSmtp|ZendProtocolSmtp\Auth\Login|ZendProtocolSmtp\Auth\Crammd5|ZendProtocolSmtp\Auth\Plain
      */
     private $originalProtocol;
 
