@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace Slam\Zend\Mail\Protocol;
 
-use Zend\Mail\Protocol\Smtp as ZendProtocolSmtp;
 use Zend\Mail\Protocol\Smtp;
+use Zend\Mail\Protocol\Smtp as ZendProtocolSmtp;
 
 final class TimeKeeperSmtpProxy extends ZendProtocolSmtp implements TimeKeeperProtocolInterface
 {
     /**
-     * @var ZendProtocolSmtp|ZendProtocolSmtp\Auth\Login|ZendProtocolSmtp\Auth\Crammd5|ZendProtocolSmtp\Auth\Plain
+     * @var ZendProtocolSmtp|ZendProtocolSmtp\Auth\Crammd5|ZendProtocolSmtp\Auth\Login|ZendProtocolSmtp\Auth\Plain
      */
     private $originalProtocol;
 
