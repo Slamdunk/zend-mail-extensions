@@ -73,7 +73,7 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         }
     }
 
-    public function provideKnownSmtpTypes()
+    public function provideKnownSmtpTypes(): array
     {
         return [
             [ZendProtocolSmtp\Auth\Crammd5::class],
@@ -83,7 +83,7 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         ];
     }
 
-    public function testAccountTheStartTime()
+    public function testAccountTheStartTime(): void
     {
         $zendProtocolSmtpMock = $this->createMock(ZendProtocolSmtp::class);
         $zendProtocolSmtpMock->expects($this->once())->method('connect')->willReturn(true);
