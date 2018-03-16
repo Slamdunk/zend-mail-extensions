@@ -43,6 +43,7 @@ final class ProtocolSmtp extends ZendProtocolSmtp implements TimeKeeperProtocolI
 
     protected function _connect($remote)
     {
+        return true;
     }
 
     protected function _send($request)
