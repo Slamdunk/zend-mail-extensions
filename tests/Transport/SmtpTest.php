@@ -37,7 +37,9 @@ final class SmtpTest extends TestCase
         $transport = new Smtp();
         $transport->setConnection($protocol);
 
-        $transport->reuseTimeLimit = 0;
+        $this->assertGreaterThan(0, $transport->getReuseTimeLimit());
+
+        $transport->setReuseTimeLimit(0);
 
         $this->assertSame(0, $protocol->getDisconnectCount());
 
@@ -53,7 +55,7 @@ final class SmtpTest extends TestCase
 
         $this->assertSame(2, $protocol->getDisconnectCount());
 
-        $transport->reuseTimeLimit = 999;
+        $transport->setReuseTimeLimit(999);
 
         $transport->send($message);
 

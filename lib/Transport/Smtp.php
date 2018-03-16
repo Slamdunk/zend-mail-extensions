@@ -14,7 +14,7 @@ final class Smtp extends ZendTransport\Smtp
     /**
      * @var int
      */
-    public $reuseTimeLimit = 270;
+    private $reuseTimeLimit = 270;
 
     public function setPluginManager(ZendProtocol\SmtpPluginManager $plugins): ZendTransport\TransportInterface
     {
@@ -28,6 +28,16 @@ final class Smtp extends ZendTransport\Smtp
         ]);
 
         return parent::setPluginManager($plugins);
+    }
+
+    public function setReuseTimeLimit(int $reuseTimeLimit): void
+    {
+        $this->reuseTimeLimit = $reuseTimeLimit;
+    }
+
+    public function getReuseTimeLimit(): int
+    {
+        return $this->reuseTimeLimit;
     }
 
     public function send(ZendMessage $message): void
