@@ -16,46 +16,48 @@ final class TimeKeeperSmtpProxyTest extends TestCase
     /**
      * @dataProvider provideKnownSmtpTypes
      */
-    public function testProxyPublicMethodsExceptQuitOne(string $smtpClass)
+    public function testProxyPublicMethodsExceptQuitOne(string $smtpClass): void
     {
         $zendSmtp = $this->createMock($smtpClass);
 
         $methods = [
-            'setMaximumLog'         => 999,
-            'getMaximumLog'         => null,
-            'getRequest'            => null,
-            'getResponse'           => null,
-            'getLog'                => null,
-            'resetLog'              => null,
-            'connect'               => null,
-            'helo'                  => \uniqid(),
-            'hasSession'            => null,
-            'mail'                  => \uniqid(),
-            'rcpt'                  => \uniqid(),
-            'data'                  => \uniqid(),
-            'rset'                  => null,
-            'noop'                  => null,
-            'vrfy'                  => \uniqid(),
-            'quit'                  => null,
-            'auth'                  => null,
-            'disconnect'            => null,
+            'setMaximumLog'         => [[999], null],
+            'getMaximumLog'         => [[], 999],
+            'getRequest'            => [[], null],
+            'getResponse'           => [[], null],
+            'getLog'                => [[], ''],
+            'resetLog'              => [[], null],
+            'connect'               => [[], true],
+            'helo'                  => [[\uniqid()], null],
+            'hasSession'            => [[], false],
+            'mail'                  => [[\uniqid()], null],
+            'rcpt'                  => [[\uniqid()], null],
+            'data'                  => [[\uniqid()], null],
+            'rset'                  => [[], null],
+            'noop'                  => [[], null],
+            'vrfy'                  => [[\uniqid()], null],
+            'quit'                  => [[], null],
+            'auth'                  => [[], null],
+            'disconnect'            => [[], null],
         ];
 
         if (ZendProtocolSmtp::class !== $smtpClass) {
-            $methods['setUsername'] = \uniqid();
-            $methods['getUsername'] = null;
-            $methods['setPassword'] = \uniqid();
-            $methods['getPassword'] = null;
+            $methods['setUsername'] = [['foo'], $zendSmtp];
+            $methods['getUsername'] = [[], 'foo'];
+            $methods['setPassword'] = [['bar'], $zendSmtp];
+            $methods['getPassword'] = [[], 'bar'];
         }
 
-        foreach ($methods as $methodName => $argument) {
-            $invocationMocker = $zendSmtp->expects($this->once());
+        foreach ($methods as $methodName => $blob) {
+            list($arguments, $return) = $blob;
+            $invocationMocker         = $zendSmtp->expects($this->once());
             $invocationMocker->method($methodName);
 
-            if (null !== $argument) {
-                $invocationMocker->with($this->identicalTo($argument));
-                $invocationMocker->willReturn($argument);
+            if (\count($arguments)) {
+                $invocationMocker->with(...$arguments);
             }
+
+            $invocationMocker->willReturn($return);
         }
 
         $zendSmtp
@@ -65,12 +67,13 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         ;
 
         $protocol = new TimeKeeperSmtpProxy($zendSmtp);
-        foreach ($methods as $methodName => $argument) {
-            $this->assertSame($argument, $protocol->{$methodName}($argument));
+        foreach ($methods as $methodName => $blob) {
+            list($arguments, $return) = $blob;
+            $this->assertSame($return, $protocol->{$methodName}(...$arguments));
         }
     }
 
-    public function provideKnownSmtpTypes()
+    public function provideKnownSmtpTypes(): array
     {
         return [
             [ZendProtocolSmtp\Auth\Crammd5::class],
@@ -80,9 +83,12 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         ];
     }
 
-    public function testAccountTheStartTime()
+    public function testAccountTheStartTime(): void
     {
-        $protocol = new TimeKeeperSmtpProxy($this->createMock(ZendProtocolSmtp::class));
+        $zendProtocolSmtpMock = $this->createMock(ZendProtocolSmtp::class);
+        $zendProtocolSmtpMock->expects($this->once())->method('connect')->willReturn(true);
+        $zendProtocolSmtpMock->expects($this->once())->method('disconnect');
+        $protocol = new TimeKeeperSmtpProxy($zendProtocolSmtpMock);
 
         $this->assertNull($protocol->getStartTime());
 

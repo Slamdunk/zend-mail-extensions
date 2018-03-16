@@ -18,7 +18,7 @@ final class ProtocolSmtp extends ZendProtocolSmtp implements TimeKeeperProtocolI
         return $this->startTime;
     }
 
-    public function connect()
+    public function connect(): bool
     {
         $result = parent::connect();
 
@@ -27,7 +27,7 @@ final class ProtocolSmtp extends ZendProtocolSmtp implements TimeKeeperProtocolI
         return $result;
     }
 
-    public function disconnect()
+    public function disconnect(): void
     {
         parent::disconnect();
 
@@ -36,13 +36,14 @@ final class ProtocolSmtp extends ZendProtocolSmtp implements TimeKeeperProtocolI
         ++$this->disconnectCount;
     }
 
-    public function getDisconnectCount()
+    public function getDisconnectCount(): int
     {
         return $this->disconnectCount;
     }
 
     protected function _connect($remote)
     {
+        return true;
     }
 
     protected function _send($request)
