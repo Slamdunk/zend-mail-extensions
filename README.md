@@ -23,3 +23,29 @@ References:
 1. https://github.com/zendframework/zend-mail/pull/27
 1. https://github.com/zendframework/zend-mail/pull/117
 1. https://github.com/zendframework/zend-mail/pull/131
+
+Example:
+
+```php
+/**
+ * QUIT instruction is disabled by default
+ * @see https://github.com/zendframework/zend-mail/pull/117
+ *
+ * All the Zend defaults options are still available
+ * @see https://docs.zendframework.com/zend-mail/transport/smtp-authentication/
+ */
+$transport = new \Slam\Zend\Mail\Transport\Smtp();
+
+$message = new \Zend\Mail\Message();
+$message->setFrom('test@test.com');
+$message->addTo('test@test.com');
+$message->setSubject('Test');
+$message->setBody('Test');
+
+$transport->send($message);
+
+sleep(305);
+
+// $transport will automatically reconnect to the SMTP server
+$transport->send($message);
+```
