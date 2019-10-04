@@ -45,9 +45,9 @@ final class Smtp extends ZendTransport\Smtp
         $connection = $this->getConnection();
 
         if ($connection instanceof SlamProtocol\TimeKeeperProtocolInterface
-            and $this->reuseTimeLimit >= 0
-            and $connection->getStartTime()
-            and ((\time() - $connection->getStartTime()) >= $this->reuseTimeLimit)
+            && $this->reuseTimeLimit >= 0
+            && $connection->getStartTime()
+            && ((\time() - $connection->getStartTime()) >= $this->reuseTimeLimit)
         ) {
             $connection->disconnect();
         }

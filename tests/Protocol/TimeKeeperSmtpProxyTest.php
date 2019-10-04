@@ -50,7 +50,7 @@ final class TimeKeeperSmtpProxyTest extends TestCase
 
         foreach ($methods as $methodName => $blob) {
             list($arguments, $return) = $blob;
-            $invocationMocker         = $zendSmtp->expects($this->once());
+            $invocationMocker         = $zendSmtp->expects(static::once());
             $invocationMocker->method($methodName);
 
             if (\count($arguments)) {
@@ -61,15 +61,15 @@ final class TimeKeeperSmtpProxyTest extends TestCase
         }
 
         $zendSmtp
-            ->expects($this->once())
+            ->expects(static::once())
             ->method('setUseCompleteQuit')
-            ->with($this->identicalTo(false))
+            ->with(static::identicalTo(false))
         ;
 
         $protocol = new TimeKeeperSmtpProxy($zendSmtp);
         foreach ($methods as $methodName => $blob) {
             list($arguments, $return) = $blob;
-            $this->assertSame($return, $protocol->{$methodName}(...$arguments));
+            static::assertSame($return, $protocol->{$methodName}(...$arguments));
         }
     }
 
@@ -86,19 +86,19 @@ final class TimeKeeperSmtpProxyTest extends TestCase
     public function testAccountTheStartTime(): void
     {
         $zendProtocolSmtpMock = $this->createMock(ZendProtocolSmtp::class);
-        $zendProtocolSmtpMock->expects($this->once())->method('connect')->willReturn(true);
-        $zendProtocolSmtpMock->expects($this->once())->method('disconnect');
+        $zendProtocolSmtpMock->expects(static::once())->method('connect')->willReturn(true);
+        $zendProtocolSmtpMock->expects(static::once())->method('disconnect');
         $protocol = new TimeKeeperSmtpProxy($zendProtocolSmtpMock);
 
-        $this->assertNull($protocol->getStartTime());
+        static::assertNull($protocol->getStartTime());
 
         $protocol->connect();
         $protocol->helo();
 
-        $this->assertGreaterThan(0, $protocol->getStartTime());
+        static::assertGreaterThan(0, $protocol->getStartTime());
 
         $protocol->disconnect();
 
-        $this->assertNull($protocol->getStartTime());
+        static::assertNull($protocol->getStartTime());
     }
 }
