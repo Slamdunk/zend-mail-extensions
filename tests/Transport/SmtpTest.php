@@ -10,8 +10,8 @@ use Slam\Zend\Mail\Transport\Smtp;
 use Zend\Mail\Message;
 
 /**
- * @covers \Slam\Zend\Mail\Transport\Smtp
  * @covers \Slam\Zend\Mail\Protocol\TimeKeeperSmtpProxyDelegatorFactory
+ * @covers \Slam\Zend\Mail\Transport\Smtp
  */
 final class SmtpTest extends TestCase
 {
@@ -21,7 +21,7 @@ final class SmtpTest extends TestCase
 
         $pluginManager = $transport->getPluginManager();
 
-        $this->assertInstanceOf(TimeKeeperSmtpProxy::class, $pluginManager->get('smtp'));
+        static::assertInstanceOf(TimeKeeperSmtpProxy::class, $pluginManager->get('smtp'));
     }
 
     public function testAutomaticallyDisconnectAndRiconnectBetweenTwoConsecutivesSendsIfTooMuchTimeIsPassedInOrderToAvoidReuseTimeLimitBond(): void
@@ -37,28 +37,28 @@ final class SmtpTest extends TestCase
         $transport = new Smtp();
         $transport->setConnection($protocol);
 
-        $this->assertGreaterThan(0, $transport->getReuseTimeLimit());
+        static::assertGreaterThan(0, $transport->getReuseTimeLimit());
 
         $transport->setReuseTimeLimit(0);
 
-        $this->assertSame(0, $protocol->getDisconnectCount());
+        static::assertSame(0, $protocol->getDisconnectCount());
 
         $transport->send($message);
 
-        $this->assertSame(0, $protocol->getDisconnectCount());
+        static::assertSame(0, $protocol->getDisconnectCount());
 
         $transport->send($message);
 
-        $this->assertSame(1, $protocol->getDisconnectCount());
+        static::assertSame(1, $protocol->getDisconnectCount());
 
         $transport->send($message);
 
-        $this->assertSame(2, $protocol->getDisconnectCount());
+        static::assertSame(2, $protocol->getDisconnectCount());
 
         $transport->setReuseTimeLimit(999);
 
         $transport->send($message);
 
-        $this->assertSame(2, $protocol->getDisconnectCount());
+        static::assertSame(2, $protocol->getDisconnectCount());
     }
 }
